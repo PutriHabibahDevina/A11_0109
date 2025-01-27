@@ -26,8 +26,8 @@ class UpdateAnggotaViewModel(
         }
     }
 
-    fun updateInsertAnggotaState(insertanggotaUiEvent: InsertUiAnggota) {
-        uiState = InsertUiState(insertUiAnggota = insertanggotaUiEvent)
+    fun updateInsertAnggotaState(insertanggotaUiAnggota: InsertUiAnggota) {
+        uiState = InsertUiState(insertUiAnggota = insertanggotaUiAnggota)
     }
 
     suspend fun editAnggota(){
