@@ -17,6 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,6 +32,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -76,7 +83,7 @@ fun HomeScreenAnggota(
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(18.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Kontak")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Pengembalian")
             }
         }
     ) { innerpadding->
@@ -160,14 +167,14 @@ fun AnggotaLayout(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(anggota){kontak->
+        items(anggota){anggota->
             AnggotaCard(
-                anggota = kontak,
+                anggota = anggota,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onDetailClick(kontak) },
+                    .clickable { onDetailClick(anggota) },
                 onDeleteCLick = {
-                    onDeleteCLick(kontak)
+                    onDeleteCLick(anggota)
                 }
             )
         }
@@ -180,6 +187,31 @@ fun AnggotaCard(
     modifier: Modifier = Modifier,
     onDeleteCLick:(Anggota)-> Unit ={}
 ){
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Konfirmasi") },
+            text = { Text("Apakah Anda yakin ingin menghapus anggota ${anggota.nama}?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDeleteCLick(anggota)
+                        showDialog = false
+                    }
+                ) {
+                    Text("Ya")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
@@ -198,7 +230,7 @@ fun AnggotaCard(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = {onDeleteCLick(anggota)}) {
+                IconButton(onClick = {showDialog = true}) { // Menampilkan dialog saat tombol delete ditekan
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null
@@ -209,10 +241,17 @@ fun AnggotaCard(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            Text(
-                text = anggota.email,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.Email, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = anggota.email,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
             Text(
                 text = anggota.nomor_telepon,
                 style = MaterialTheme.typography.titleMedium
