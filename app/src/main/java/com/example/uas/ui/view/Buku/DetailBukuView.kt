@@ -27,6 +27,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +58,11 @@ fun DetailBukuView(
     detailbukuViewModel: DetailBukuViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val bukuList = remember { mutableStateOf(emptyList<Buku>()) }
+
+    LaunchedEffect(Unit) {
+        bukuList.value = (detailbukuViewModel.detailbukuUiState as? DetailbukuUiState.Success)?.buku?.let { listOf(it) } ?: emptyList()
+    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
