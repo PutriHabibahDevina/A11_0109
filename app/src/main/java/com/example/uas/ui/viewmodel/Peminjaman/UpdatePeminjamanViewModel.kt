@@ -26,8 +26,8 @@ class UpdatePeminjamanViewModel(
         }
     }
 
-    fun updateInsertPeminjamanState(insertpeminjamanUiEvent: InsertUiPeminjaman) {
-        uiState = InsertUiState(insertUiPeminjaman = insertpeminjamanUiEvent)
+    fun updateInsertPeminjamanState(insertpeminjamanUiPeminjaman: InsertUiPeminjaman) {
+        uiState = InsertUiState(insertUiPeminjaman = insertpeminjamanUiPeminjaman)
     }
 
     suspend fun editPeminjaman(){
