@@ -13,8 +13,8 @@ class InsertPeminjamanViewModel (private val borrow: PeminjamanRepository):ViewM
     var uiState by mutableStateOf(InsertUiState())
         private set
 
-    fun updateInsertPeminjamanState(insertUiEvent: InsertUiPeminjaman){
-        uiState = InsertUiState(insertUiPeminjaman = insertUiEvent)
+    fun updateInsertPeminjamanState(insertUiPeminjaman: InsertUiPeminjaman){
+        uiState = InsertUiState(insertUiPeminjaman = insertUiPeminjaman)
     }
 
     suspend fun insertPeminjaman(){
