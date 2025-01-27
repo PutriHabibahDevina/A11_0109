@@ -24,6 +24,7 @@ import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
 import com.example.uas.ui.viewmodel.Peminjaman.InsertPeminjamanViewModel
 import com.example.uas.ui.viewmodel.Peminjaman.InsertUiPeminjaman
+import com.example.uas.ui.viewmodel.Peminjaman.InsertUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
@@ -72,7 +73,7 @@ fun EntryPeminjamanScreen(
 
 @Composable
 fun EntryBodyPeminjaman(
-    insertPeminjamanUiState: com.example.uas.ui.viewmodel.Peminjaman.InsertUiState,
+    insertPeminjamanUiState: InsertUiState,
     onPeminjamanValueChange: (InsertUiPeminjaman)->Unit,
     onSaveClick:()->Unit,
     modifier: Modifier = Modifier
@@ -109,6 +110,14 @@ fun FormInputPeminjaman(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        OutlinedTextField(
+            value = insertUiPeminjaman.id_peminjaman,
+            onValueChange = {onValueChange(insertUiPeminjaman.copy(id_peminjaman = it))},
+            label = { Text("ID Peminjaman") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
         OutlinedTextField(
             value = insertUiPeminjaman.id_peminjaman,
             onValueChange = {onValueChange(insertUiPeminjaman.copy(id_peminjaman = it))},
