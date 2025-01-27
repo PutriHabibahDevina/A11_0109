@@ -17,6 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -181,12 +184,11 @@ fun BukuCard(
     onDeleteCLick:(Buku)-> Unit ={}
 ){
     Card(
-        modifier = modifier,
-        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -194,8 +196,8 @@ fun BukuCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = buku.judul,
-                    style = MaterialTheme.typography.titleLarge
+                    text = buku.id_buku,
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = {onDeleteCLick(buku)}) {
@@ -204,23 +206,44 @@ fun BukuCard(
                         contentDescription = null
                     )
                 }
+            }
+            Text(
+                text = buku.judul,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
                 Text(
-                    text = buku.id_buku,
+                    text = buku.penulis,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            Text(
-                text = buku.penulis,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = buku.status,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = buku.kategori,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.List, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = buku.kategori,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.Info, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = buku.status,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
     }
 }
