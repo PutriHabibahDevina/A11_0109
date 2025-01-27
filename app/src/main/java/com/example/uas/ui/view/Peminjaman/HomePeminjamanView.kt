@@ -16,7 +16,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,6 +34,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -180,6 +189,31 @@ fun PeminjamanCard(
     modifier: Modifier = Modifier,
     onDeleteCLick:(Peminjaman)-> Unit ={}
 ){
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Konfirmasi") },
+            text = { Text("Apakah Anda yakin ingin menghapus peminjaman ${peminjaman.id_peminjaman}?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDeleteCLick(peminjaman)
+                        showDialog = false
+                    }
+                ) {
+                    Text("Ya")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
@@ -198,7 +232,7 @@ fun PeminjamanCard(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = {onDeleteCLick(peminjaman)}) {
+                IconButton(onClick = {showDialog = true}) { // Menampilkan dialog saat tombol delete ditekan
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null
@@ -209,18 +243,39 @@ fun PeminjamanCard(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            Text(
-                text = peminjaman.id_anggota,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = peminjaman.tanggal_peminjaman,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = peminjaman.tanggal_pengembalian,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = peminjaman.id_anggota,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = peminjaman.tanggal_peminjaman,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "")
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = peminjaman.tanggal_pengembalian,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
     }
 }
