@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,6 +33,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -183,12 +188,37 @@ fun BukuCard(
     modifier: Modifier = Modifier,
     onDeleteCLick:(Buku)-> Unit ={}
 ){
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Konfirmasi") },
+            text = { Text("Apakah Anda yakin ingin menghapus buku ${buku.judul}?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDeleteCLick(buku)
+                        showDialog = false
+                    }
+                ) {
+                    Text("Ya")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+
     Card(
         modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -200,7 +230,7 @@ fun BukuCard(
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = {onDeleteCLick(buku)}) {
+                IconButton(onClick = {showDialog = true}) { // Menampilkan dialog saat tombol delete ditekan
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null
