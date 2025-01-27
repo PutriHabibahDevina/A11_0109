@@ -26,8 +26,8 @@ class UpdateBukuViewModel(
         }
     }
 
-    fun updateInsertBukuState(insertbukuUiEvent: InsertUiBuku) {
-        uiState = InsertUiState(insertUiBuku = insertbukuUiEvent)
+    fun updateInsertBukuState(insertbukuUiBuku: InsertUiBuku) {
+        uiState = InsertUiState(insertUiBuku = insertbukuUiBuku)
     }
 
     suspend fun editBuku(){
