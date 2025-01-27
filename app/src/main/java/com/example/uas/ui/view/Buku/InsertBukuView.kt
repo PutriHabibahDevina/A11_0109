@@ -83,7 +83,7 @@ fun EntryBodyBuku(
         modifier = Modifier.padding(12.dp)
     ) {
         FormInputBuku(
-            insertUiEvent = insertBukuUiState.insertUiBuku,
+            insertUiBuku = insertBukuUiState.insertUiBuku,
             onValueChange = onBukuValueChange,
             modifier = Modifier.fillMaxWidth()
         )
@@ -101,7 +101,7 @@ fun EntryBodyBuku(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormInputBuku(
-    insertUiEvent: InsertUiBuku,
+    insertUiBuku: InsertUiBuku,
     modifier: Modifier = Modifier,
     onValueChange:(InsertUiBuku)->Unit = {},
     enabled: Boolean = true
@@ -111,40 +111,48 @@ fun FormInputBuku(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedTextField(
-            value = insertUiEvent.judul,
-            onValueChange = {onValueChange(insertUiEvent.copy(judul = it))},
-            label = { Text("Judul") },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = insertUiEvent.id_buku,
-            onValueChange = {onValueChange(insertUiEvent.copy(id_buku = it))},
+            value = insertUiBuku.id_buku,
+            onValueChange = {onValueChange(insertUiBuku.copy(id_buku = it))},
             label = { Text("ID Buku") },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(
-            value = insertUiEvent.penulis,
-            onValueChange = {onValueChange(insertUiEvent.copy(penulis = it))},
+            value = insertUiBuku.id_buku,
+            onValueChange = {onValueChange(insertUiBuku.copy(id_buku = it))},
+            label = { Text("ID Buku") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = insertUiBuku.judul,
+            onValueChange = {onValueChange(insertUiBuku.copy(judul = it))},
+            label = { Text("Judul") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = insertUiBuku.penulis,
+            onValueChange = {onValueChange(insertUiBuku.copy(penulis = it))},
             label = { Text("Penulis") },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(
-            value = insertUiEvent.kategori,
-            onValueChange = {onValueChange(insertUiEvent.copy(kategori = it))},
+            value = insertUiBuku.kategori,
+            onValueChange = {onValueChange(insertUiBuku.copy(kategori = it))},
             label = { Text("Kategori") },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(
-            value = insertUiEvent.status,
-            onValueChange = {onValueChange(insertUiEvent.copy(status = it))},
+            value = insertUiBuku.status,
+            onValueChange = {onValueChange(insertUiBuku.copy(status = it))},
             label = { Text("Status") },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
