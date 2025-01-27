@@ -26,6 +26,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.uas.model.Buku
 import com.example.uas.model.Peminjaman
 import com.example.uas.ui.customwidget.CustomeTopAppBar
+import com.example.uas.ui.viewmodel.Buku.DetailbukuUiState
 import com.example.uas.ui.viewmodel.Peminjaman.DetailPeminjamanViewModel
 import com.example.uas.ui.viewmodel.Peminjaman.DetailpeminjamanUiState
 
@@ -55,6 +60,11 @@ fun DetailPeminjamanView(
     detailpeminjamanViewModel: DetailPeminjamanViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val peminjamanList = remember { mutableStateOf(emptyList<Peminjaman>()) }
+
+    LaunchedEffect(Unit) {
+        peminjamanList.value = (detailpeminjamanViewModel.detailpeminjamanUiState as? DetailpeminjamanUiState.Success)?.peminjaman?.let { listOf(it) } ?: emptyList()
+    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
