@@ -119,6 +119,14 @@ fun FormInputAnggota(
             singleLine = true
         )
         OutlinedTextField(
+            value = insertUiAnggota.id_anggota,
+            onValueChange = {onValueChange(insertUiAnggota.copy(id_anggota = it))},
+            label = { Text("ID Anggota") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
             value = insertUiAnggota.nama,
             onValueChange = {onValueChange(insertUiAnggota.copy(nama = it))},
             label = { Text("Nama") },
