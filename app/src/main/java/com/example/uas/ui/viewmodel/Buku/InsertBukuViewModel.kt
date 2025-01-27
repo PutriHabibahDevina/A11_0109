@@ -13,8 +13,8 @@ class InsertBukuViewModel (private val book: BukuRepository):ViewModel(){
     var uiState by mutableStateOf(InsertUiState())
         private set
 
-    fun updateInsertBukuState(insertUiEvent: InsertUiBuku){
-        uiState = InsertUiState(insertUiBuku = insertUiEvent)
+    fun updateInsertBukuState(insertUiBuku: InsertUiBuku){
+        uiState = InsertUiState(insertUiBuku = insertUiBuku)
     }
 
     suspend fun insertBuku(){
@@ -50,10 +50,10 @@ fun InsertUiBuku.toBuku(): Buku = Buku(
 )
 
 fun Buku.toUiStateBuku():InsertUiState = InsertUiState(
-    insertUiBuku = toInsertUiEvent()
+    insertUiBuku = toInsertUiBuku()
 )
 
-fun Buku.toInsertUiEvent():InsertUiBuku = InsertUiBuku(
+fun Buku.toInsertUiBuku():InsertUiBuku = InsertUiBuku(
     id_buku = id_buku,
     judul = judul,
     penulis = penulis,
