@@ -15,7 +15,7 @@ class UpdateAnggotaViewModel(
     private val AnggotaRepository: AnggotaRepository
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertAnggotaUiState())
         private set
 
     val id_anggota: String = checkNotNull(savedStateHandle[DestinasiEditAnggota.id_anggota])
@@ -27,7 +27,7 @@ class UpdateAnggotaViewModel(
     }
 
     fun updateInsertAnggotaState(insertanggotaUiAnggota: InsertUiAnggota) {
-        uiState = InsertUiState(insertUiAnggota = insertanggotaUiAnggota)
+        uiState = InsertAnggotaUiState(insertUiAnggota = insertanggotaUiAnggota)
     }
 
     suspend fun editAnggota(){

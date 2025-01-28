@@ -10,11 +10,11 @@ import com.example.uas.repository.PeminjamanRepository
 import kotlinx.coroutines.launch
 
 class InsertPeminjamanViewModel (private val borrow: PeminjamanRepository):ViewModel(){
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertPeminjamanUiState())
         private set
 
     fun updateInsertPeminjamanState(insertUiPeminjaman: InsertUiPeminjaman){
-        uiState = InsertUiState(insertUiPeminjaman = insertUiPeminjaman)
+        uiState = InsertPeminjamanUiState(insertUiPeminjaman = insertUiPeminjaman)
     }
 
     suspend fun insertPeminjaman(){
@@ -29,7 +29,7 @@ class InsertPeminjamanViewModel (private val borrow: PeminjamanRepository):ViewM
 }
 
 
-data class InsertUiState(
+data class InsertPeminjamanUiState(
     val insertUiPeminjaman : InsertUiPeminjaman = InsertUiPeminjaman()
 )
 
@@ -49,7 +49,7 @@ fun InsertUiPeminjaman.toPeminjaman(): Peminjaman = Peminjaman(
     tanggal_pengembalian = tanggal_pengembalian
 )
 
-fun Peminjaman.toUiStatePeminjaman():InsertUiState = InsertUiState(
+fun Peminjaman.toUiStatePeminjaman():InsertPeminjamanUiState = InsertPeminjamanUiState(
     insertUiPeminjaman = toInsertUiPeminjaman()
 )
 

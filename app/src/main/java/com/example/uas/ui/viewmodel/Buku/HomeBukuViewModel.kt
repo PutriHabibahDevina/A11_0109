@@ -11,14 +11,14 @@ import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
 
-sealed class HomeUiState{
-    data class Success(val buku: List<Buku>): HomeUiState()
-    object Error: HomeUiState()
-    object Loading: HomeUiState()
+sealed class HomeBukuUiState{
+    data class Success(val buku: List<Buku>): HomeBukuUiState()
+    object Error: HomeBukuUiState()
+    object Loading: HomeBukuUiState()
 }
 
 class HomeBukuViewModel (private val book: BukuRepository): ViewModel(){
-    var bukuUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var bukuUIState: HomeBukuUiState by mutableStateOf(HomeBukuUiState.Loading)
         private set
 
     init {
@@ -27,13 +27,13 @@ class HomeBukuViewModel (private val book: BukuRepository): ViewModel(){
 
     fun getBook(){
         viewModelScope.launch {
-            bukuUIState = HomeUiState.Loading
+            bukuUIState = HomeBukuUiState.Loading
             bukuUIState = try {
-                HomeUiState.Success(book.getBuku())
+                HomeBukuUiState.Success(book.getBuku())
             }catch (e:IOException){
-                HomeUiState.Error
+                HomeBukuUiState.Error
             }catch (e: HttpException){
-                HomeUiState.Error
+                HomeBukuUiState.Error
             }
         }
     }
@@ -43,9 +43,9 @@ class HomeBukuViewModel (private val book: BukuRepository): ViewModel(){
             try {
                 book.deleteBuku(id_buku)
             }catch (e: IOException){
-                HomeUiState.Error
+                HomeBukuUiState.Error
             }catch (e:HttpException){
-                HomeUiState.Error
+                HomeBukuUiState.Error
             }
         }
     }

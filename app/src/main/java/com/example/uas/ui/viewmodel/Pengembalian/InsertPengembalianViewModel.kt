@@ -10,11 +10,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class InsertPengembalianViewModel (private val kembali: PengembalianRepository):ViewModel(){
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertPengembalianUiState())
         private set
 
     fun updateInsertPengembalianState(insertUiPengembalian: InsertUiPengembalian){
-        uiState = InsertUiState(insertUiPengembalian = insertUiPengembalian)
+        uiState = InsertPengembalianUiState(insertUiPengembalian = insertUiPengembalian)
     }
 
     suspend fun insertPengembalian(){
@@ -29,7 +29,7 @@ class InsertPengembalianViewModel (private val kembali: PengembalianRepository):
 }
 
 
-data class InsertUiState(
+data class InsertPengembalianUiState(
     val insertUiPengembalian : InsertUiPengembalian = InsertUiPengembalian()
 )
 
@@ -45,7 +45,7 @@ fun InsertUiPengembalian.toPengembalian(): Pengembalian = Pengembalian(
     tanggal_dikembalikan = tanggal_dikembalikan
 )
 
-fun Pengembalian.toUiStatePengembalian():InsertUiState = InsertUiState(
+fun Pengembalian.toUiStatePengembalian():InsertPengembalianUiState = InsertPengembalianUiState(
     insertUiPengembalian = toInsertUiPengembalian()
 )
 

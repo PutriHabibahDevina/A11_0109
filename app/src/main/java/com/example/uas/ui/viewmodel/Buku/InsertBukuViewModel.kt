@@ -10,11 +10,11 @@ import com.example.uas.repository.BukuRepository
 import kotlinx.coroutines.launch
 
 class InsertBukuViewModel (private val book: BukuRepository):ViewModel(){
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertBukuUiState())
         private set
 
     fun updateInsertBukuState(insertUiBuku: InsertUiBuku){
-        uiState = InsertUiState(insertUiBuku = insertUiBuku)
+        uiState = InsertBukuUiState(insertUiBuku = insertUiBuku)
     }
 
     suspend fun insertBuku(){
@@ -29,7 +29,7 @@ class InsertBukuViewModel (private val book: BukuRepository):ViewModel(){
 }
 
 
-data class InsertUiState(
+data class InsertBukuUiState(
     val insertUiBuku : InsertUiBuku = InsertUiBuku()
 )
 
@@ -49,7 +49,7 @@ fun InsertUiBuku.toBuku(): Buku = Buku(
     status = status
 )
 
-fun Buku.toUiStateBuku():InsertUiState = InsertUiState(
+fun Buku.toUiStateBuku():InsertBukuUiState = InsertBukuUiState(
     insertUiBuku = toInsertUiBuku()
 )
 

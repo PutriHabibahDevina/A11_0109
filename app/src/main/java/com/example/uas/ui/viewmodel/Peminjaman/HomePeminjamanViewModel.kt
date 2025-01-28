@@ -11,14 +11,14 @@ import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
 
-sealed class HomeUiState{
-    data class Success(val peminjaman: List<Peminjaman>): HomeUiState()
-    object Error: HomeUiState()
-    object Loading: HomeUiState()
+sealed class HomePeminjamanUiState{
+    data class Success(val peminjaman: List<Peminjaman>): HomePeminjamanUiState()
+    object Error: HomePeminjamanUiState()
+    object Loading: HomePeminjamanUiState()
 }
 
 class HomePeminjamanViewModel (private val borrow: PeminjamanRepository): ViewModel(){
-    var peminjamanUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var peminjamanUIState: HomePeminjamanUiState by mutableStateOf(HomePeminjamanUiState.Loading)
         private set
 
     init {
@@ -27,13 +27,13 @@ class HomePeminjamanViewModel (private val borrow: PeminjamanRepository): ViewMo
 
     fun getBorrow(){
         viewModelScope.launch {
-            peminjamanUIState = HomeUiState.Loading
+            peminjamanUIState = HomePeminjamanUiState.Loading
             peminjamanUIState = try {
-                HomeUiState.Success(borrow.getPeminjaman())
+                HomePeminjamanUiState.Success(borrow.getPeminjaman())
             }catch (e:IOException){
-                HomeUiState.Error
+                HomePeminjamanUiState.Error
             }catch (e: HttpException){
-                HomeUiState.Error
+                HomePeminjamanUiState.Error
             }
         }
     }
@@ -43,9 +43,9 @@ class HomePeminjamanViewModel (private val borrow: PeminjamanRepository): ViewMo
             try {
                 borrow.deletePeminjaman(id_peminjaman)
             }catch (e: IOException){
-                HomeUiState.Error
+                HomePeminjamanUiState.Error
             }catch (e:HttpException){
-                HomeUiState.Error
+                HomePeminjamanUiState.Error
             }
         }
     }

@@ -15,7 +15,7 @@ class UpdatePengembalianViewModel(
     private val pengembalianRepository: PengembalianRepository
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertPengembalianUiState())
         private set
 
     val id_pengembalian: String = checkNotNull(savedStateHandle[DestinasiEditPengembalian.id_pengembalian])
@@ -27,7 +27,7 @@ class UpdatePengembalianViewModel(
     }
 
     fun updateInsertPengembalianState(insertbukuUiPengembalian: InsertUiPengembalian) {
-        uiState = InsertUiState(insertUiPengembalian = insertbukuUiPengembalian)
+        uiState = InsertPengembalianUiState(insertUiPengembalian = insertbukuUiPengembalian)
     }
 
     suspend fun editPengembalian(){

@@ -11,14 +11,14 @@ import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
 
-sealed class HomeUiState{
-    data class Success(val pengembalian: List<Pengembalian>): HomeUiState()
-    object Error: HomeUiState()
-    object Loading: HomeUiState()
+sealed class HomePengembalianUiState{
+    data class Success(val pengembalian: List<Pengembalian>): HomePengembalianUiState()
+    object Error: HomePengembalianUiState()
+    object Loading: HomePengembalianUiState()
 }
 
 class HomePengembalianViewModel (private val kembali: PengembalianRepository): ViewModel(){
-    var pengembalianUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var pengembalianUIState: HomePengembalianUiState by mutableStateOf(HomePengembalianUiState.Loading)
         private set
 
     init {
@@ -27,13 +27,13 @@ class HomePengembalianViewModel (private val kembali: PengembalianRepository): V
 
     fun getKembali(){
         viewModelScope.launch {
-            pengembalianUIState = HomeUiState.Loading
+            pengembalianUIState = HomePengembalianUiState.Loading
             pengembalianUIState = try {
-                HomeUiState.Success(kembali.getPengembalian())
+                HomePengembalianUiState.Success(kembali.getPengembalian())
             }catch (e:IOException){
-                HomeUiState.Error
+                HomePengembalianUiState.Error
             }catch (e: HttpException){
-                HomeUiState.Error
+                HomePengembalianUiState.Error
             }
         }
     }

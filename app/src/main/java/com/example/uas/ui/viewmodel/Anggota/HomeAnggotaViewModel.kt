@@ -11,14 +11,14 @@ import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
 
-sealed class HomeUiState{
-    data class Success(val anggota: List<Anggota>): HomeUiState()
-    object Error: HomeUiState()
-    object Loading: HomeUiState()
+sealed class HomeAnggotaUiState{
+    data class Success(val anggota: List<Anggota>): HomeAnggotaUiState()
+    object Error: HomeAnggotaUiState()
+    object Loading: HomeAnggotaUiState()
 }
 
 class HomeAnggotaViewModel (private val member: AnggotaRepository): ViewModel(){
-    var anggotaUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var anggotaUIState: HomeAnggotaUiState by mutableStateOf(HomeAnggotaUiState.Loading)
         private set
 
     init {
@@ -27,13 +27,13 @@ class HomeAnggotaViewModel (private val member: AnggotaRepository): ViewModel(){
 
     fun getMember(){
         viewModelScope.launch {
-            anggotaUIState = HomeUiState.Loading
+            anggotaUIState = HomeAnggotaUiState.Loading
             anggotaUIState = try {
-                HomeUiState.Success(member.getAnggota())
+                HomeAnggotaUiState.Success(member.getAnggota())
             }catch (e:IOException){
-                HomeUiState.Error
+                HomeAnggotaUiState.Error
             }catch (e: HttpException){
-                HomeUiState.Error
+                HomeAnggotaUiState.Error
             }
         }
     }
@@ -43,9 +43,9 @@ class HomeAnggotaViewModel (private val member: AnggotaRepository): ViewModel(){
             try {
                 member.deleteAnggota(id_anggota)
             }catch (e: IOException){
-                HomeUiState.Error
+                HomeAnggotaUiState.Error
             }catch (e:HttpException){
-                HomeUiState.Error
+                HomeAnggotaUiState.Error
             }
         }
     }

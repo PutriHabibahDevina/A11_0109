@@ -10,11 +10,11 @@ import com.example.uas.repository.AnggotaRepository
 import kotlinx.coroutines.launch
 
 class InsertAnggotaViewModel (private val member: AnggotaRepository):ViewModel(){
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertAnggotaUiState())
         private set
 
     fun updateInsertAnggotaState(insertUiAngota: InsertUiAnggota){
-        uiState = InsertUiState(insertUiAnggota = insertUiAngota)
+        uiState = InsertAnggotaUiState(insertUiAnggota = insertUiAngota)
     }
 
     suspend fun insertAnggota(){
@@ -29,7 +29,7 @@ class InsertAnggotaViewModel (private val member: AnggotaRepository):ViewModel()
 }
 
 
-data class InsertUiState(
+data class InsertAnggotaUiState(
     val insertUiAnggota : InsertUiAnggota = InsertUiAnggota()
 )
 
@@ -47,7 +47,7 @@ fun InsertUiAnggota.toAnggota(): Anggota = Anggota(
     nomor_telepon = nomor_telepon
 )
 
-fun Anggota.toUiStateAnggota():InsertUiState = InsertUiState(
+fun Anggota.toUiStateAnggota():InsertAnggotaUiState = InsertAnggotaUiState(
     insertUiAnggota = toInsertUiAnggota()
 )
 

@@ -15,7 +15,7 @@ class UpdatePeminjamanViewModel(
     private val peminjamanRepository: PeminjamanRepository
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertPeminjamanUiState())
         private set
 
     val id_peminjaman: String = checkNotNull(savedStateHandle[DestinasiEditPeminjaman.id_peminjaman])
@@ -27,7 +27,7 @@ class UpdatePeminjamanViewModel(
     }
 
     fun updateInsertPeminjamanState(insertpeminjamanUiPeminjaman: InsertUiPeminjaman) {
-        uiState = InsertUiState(insertUiPeminjaman = insertpeminjamanUiPeminjaman)
+        uiState = InsertPeminjamanUiState(insertUiPeminjaman = insertpeminjamanUiPeminjaman)
     }
 
     suspend fun editPeminjaman(){

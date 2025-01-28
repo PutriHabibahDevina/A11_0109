@@ -15,7 +15,7 @@ class UpdateBukuViewModel(
     private val bukuRepository: BukuRepository
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(InsertUiState())
+    var uiState by mutableStateOf(InsertBukuUiState())
         private set
 
     val id_buku: String = checkNotNull(savedStateHandle[DestinasiEditBuku.id_buku])
@@ -27,7 +27,7 @@ class UpdateBukuViewModel(
     }
 
     fun updateInsertBukuState(insertbukuUiBuku: InsertUiBuku) {
-        uiState = InsertUiState(insertUiBuku = insertbukuUiBuku)
+        uiState = InsertBukuUiState(insertUiBuku = insertbukuUiBuku)
     }
 
     suspend fun editBuku(){
