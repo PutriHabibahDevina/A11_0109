@@ -35,11 +35,13 @@ import com.example.uas.ui.view.Peminjaman.EntryPeminjamanScreen
 import com.example.uas.ui.view.Peminjaman.HomeScreenPeminjaman
 import com.example.uas.ui.view.Peminjaman.UpdatePeminjamanView
 import com.example.uas.ui.view.Pengembalian.DestinasiDetailPengembalian
+import com.example.uas.ui.view.Pengembalian.DestinasiEditPengembalian
 import com.example.uas.ui.view.Pengembalian.DestinasiEntryPengembalian
 import com.example.uas.ui.view.Pengembalian.DestinasiHomePengembalian
 import com.example.uas.ui.view.Pengembalian.DetailPengembalianView
 import com.example.uas.ui.view.Pengembalian.EntryPengembalianScreen
 import com.example.uas.ui.view.Pengembalian.HomeScreenPengembalian
+import com.example.uas.ui.view.Pengembalian.UpdatePengembalianView
 import com.example.uas.ui.view.SplashView
 
 @Composable
@@ -286,8 +288,37 @@ fun PengelolaHalaman(
         ){ backStackEntry ->
             val id_pengembalian = backStackEntry.arguments?.getString(DestinasiDetailPengembalian.id_pengembalian)
             id_pengembalian?.let {
-                DetailPengembalianView()
+                DetailPengembalianView(
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    onEditClick = { id_peminjaman ->
+                        navController.navigate("${DestinasiEditPeminjaman.route}/$id_peminjaman")
+                        println(id_peminjaman)
+                    }
+                )
             }
+        }
+        composable(
+            route = DestinasiEditPengembalian.routeWithArgs,
+            arguments = listOf(navArgument(DestinasiEditPengembalian.id_pengembalian){
+                type = NavType.StringType
+            })
+        ){
+            UpdatePengembalianView(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                onNavigateUp = {
+                    navController.navigate(
+                        DestinasiEditPengembalian.route
+                    ){
+                        popUpTo(DestinasiHomePengembalian.route){
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
