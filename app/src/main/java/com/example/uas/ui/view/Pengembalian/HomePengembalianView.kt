@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -45,12 +44,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uas.R
-import com.example.uas.model.Buku
 import com.example.uas.model.Pengembalian
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
+import com.example.uas.ui.viewmodel.Pengembalian.HomePengembalianUiState
 import com.example.uas.ui.viewmodel.Pengembalian.HomePengembalianViewModel
-import com.example.uas.ui.viewmodel.Pengembalian.HomeUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 object DestinasiHomePengembalian: DestinasiNavigasi {
@@ -99,15 +97,15 @@ fun HomeScreenPengembalian(
 
 @Composable
 fun HomeStatus(
-    homeUiState: HomeUiState,
+    homeUiState: HomePengembalianUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteCLick: (Pengembalian) -> Unit = {},
     onDetailClick: (String) -> Unit
 ){
     when(homeUiState){
-        is HomeUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
-        is HomeUiState.Success->
+        is HomePengembalianUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
+        is HomePengembalianUiState.Success->
             if (homeUiState.pengembalian.isEmpty()){
                 return Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                     Text(text = "Tidak ada data Pengembalian")
@@ -123,7 +121,7 @@ fun HomeStatus(
                     }
                 )
             }
-        is HomeUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
+        is HomePengembalianUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
     }
 }
 

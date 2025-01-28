@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,8 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -31,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,14 +42,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uas.R
 import com.example.uas.model.Buku
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
+import com.example.uas.ui.viewmodel.Buku.HomeBukuUiState
 import com.example.uas.ui.viewmodel.Buku.HomeBukuViewModel
-import com.example.uas.ui.viewmodel.Buku.HomeUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 object DestinasiHomeBuku: DestinasiNavigasi {
@@ -88,28 +89,28 @@ fun HomeScreenBuku(
             }
         }
     ) { innerpadding->
-        HomeStatus(
-            homeUiState = viewModel.bukuUIState,
-            retryAction = {viewModel.getBook()}, modifier = Modifier.padding(innerpadding),
-            onDetailClick = onDetailClick, onDeleteCLick = {
-                viewModel.deleteBook(it.id_buku)
-                viewModel.getBook()
-            }
-        )
+            HomeStatus(
+                homeUiState = viewModel.bukuUIState,
+                retryAction = {viewModel.getBook()}, modifier = Modifier.padding(innerpadding),
+                onDetailClick = onDetailClick, onDeleteCLick = {
+                    viewModel.deleteBook(it.id_buku)
+                    viewModel.getBook()
+                }
+            )
     }
 }
 
 @Composable
 fun HomeStatus(
-    homeUiState: HomeUiState,
+    homeUiState: HomeBukuUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteCLick: (Buku) -> Unit = {},
     onDetailClick: (String) -> Unit
 ){
     when(homeUiState){
-        is HomeUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
-        is HomeUiState.Success->
+        is HomeBukuUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeBukuUiState.Success->
             if (homeUiState.buku.isEmpty()){
                 return Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                     Text(text = "Tidak ada data Buku")
@@ -125,7 +126,7 @@ fun HomeStatus(
                     }
                 )
             }
-        is HomeUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
+        is HomeBukuUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
     }
 }
 
@@ -154,7 +155,6 @@ fun OnError(retryAction:()->Unit, modifier: Modifier = Modifier){
         }
     }
 }
-
 
 @Composable
 fun BukuLayout(
@@ -189,6 +189,7 @@ fun BukuCard(
     onDeleteCLick:(Buku)-> Unit ={}
 ){
     var showDialog by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
 
     if (showDialog) {
         AlertDialog(
@@ -214,20 +215,30 @@ fun BukuCard(
     }
 
     Card(
-        modifier = Modifier.padding(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            TextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text("Search") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = buku.id_buku,
-                    style = MaterialTheme.typography.titleMedium
+                    text = buku.judul,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.weight(1f) // Mengisi ruang kosong di sebelah kiri
                 )
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = {showDialog = true}) { // Menampilkan dialog saat tombol delete ditekan
@@ -236,17 +247,21 @@ fun BukuCard(
                         contentDescription = null
                     )
                 }
+                Text(
+                    text = buku.id_buku,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(end = 8.dp)
+                )
             }
-            Text(
-                text = buku.judul,
-                style = MaterialTheme.typography.titleLarge
-            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = "Penulis:",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
                 Text(
                     text = buku.penulis,
                     style = MaterialTheme.typography.titleMedium
@@ -256,8 +271,11 @@ fun BukuCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.List, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = "Kategori:",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
                 Text(
                     text = buku.kategori,
                     style = MaterialTheme.typography.titleMedium

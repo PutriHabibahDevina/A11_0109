@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -48,8 +47,8 @@ import com.example.uas.R
 import com.example.uas.model.Anggota
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
+import com.example.uas.ui.viewmodel.Anggota.HomeAnggotaUiState
 import com.example.uas.ui.viewmodel.Anggota.HomeAnggotaViewModel
-import com.example.uas.ui.viewmodel.Anggota.HomeUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 object DestinasiHomeAnggota: DestinasiNavigasi {
@@ -101,18 +100,18 @@ fun HomeScreenAnggota(
 
 @Composable
 fun HomeStatus(
-    homeUiState: HomeUiState,
+    homeUiState: HomeAnggotaUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteCLick: (Anggota) -> Unit = {},
     onDetailClick: (String) -> Unit
 ){
     when(homeUiState){
-        is HomeUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
-        is HomeUiState.Success->
+        is HomeAnggotaUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeAnggotaUiState.Success->
             if (homeUiState.anggota.isEmpty()){
                 return Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                    Text(text = "Tidak ada data Kontak")
+                    Text(text = "Tidak ada data Anggota")
                 }
             }else{
                 AnggotaLayout(
@@ -125,7 +124,7 @@ fun HomeStatus(
                     }
                 )
             }
-        is HomeUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
+        is HomeAnggotaUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
     }
 }
 
@@ -216,10 +215,10 @@ fun AnggotaCard(
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(

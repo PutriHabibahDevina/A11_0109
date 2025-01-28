@@ -49,8 +49,8 @@ import com.example.uas.R
 import com.example.uas.model.Peminjaman
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
+import com.example.uas.ui.viewmodel.Peminjaman.HomePeminjamanUiState
 import com.example.uas.ui.viewmodel.Peminjaman.HomePeminjamanViewModel
-import com.example.uas.ui.viewmodel.Peminjaman.HomeUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 
 object DestinasiHomePeminjaman: DestinasiNavigasi {
@@ -102,15 +102,15 @@ fun HomeScreenPeminjaman(
 
 @Composable
 fun HomeStatus(
-    homeUiState: HomeUiState,
+    homeUiState: HomePeminjamanUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteCLick: (Peminjaman) -> Unit = {},
     onDetailClick: (String) -> Unit
 ){
     when(homeUiState){
-        is HomeUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
-        is HomeUiState.Success->
+        is HomePeminjamanUiState.Loading-> OnLoading(modifier = modifier.fillMaxSize())
+        is HomePeminjamanUiState.Success->
             if (homeUiState.peminjaman.isEmpty()){
                 return Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                     Text(text = "Tidak ada data Peminjaman")
@@ -126,7 +126,7 @@ fun HomeStatus(
                     }
                 )
             }
-        is HomeUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
+        is HomePeminjamanUiState.Error-> OnError(retryAction,modifier = modifier.fillMaxSize())
     }
 }
 
