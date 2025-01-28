@@ -247,8 +247,11 @@ fun PeminjamanCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = "ID Anggota:",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
                 Text(
                     text = peminjaman.id_anggota,
                     style = MaterialTheme.typography.titleMedium
@@ -258,8 +261,11 @@ fun PeminjamanCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = "Tanggal Peminjaman:",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
                 Text(
                     text = peminjaman.tanggal_peminjaman,
                     style = MaterialTheme.typography.titleMedium
@@ -269,8 +275,11 @@ fun PeminjamanCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Text(
+                    text = "Tanggal Pengambilan:",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(end = 4.dp)
+                )
                 Text(
                     text = peminjaman.tanggal_pengembalian,
                     style = MaterialTheme.typography.titleMedium
