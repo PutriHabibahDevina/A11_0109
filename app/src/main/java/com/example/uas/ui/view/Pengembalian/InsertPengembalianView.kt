@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
-import com.example.uas.ui.viewmodel.Pengembalian.InsertUiState
+import com.example.uas.ui.viewmodel.Pengembalian.InsertPengembalianUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
@@ -73,7 +73,7 @@ fun EntryPengembalianScreen(
 
 @Composable
 fun EntryBodyPengembalian(
-    insertPengembalianUiState: InsertUiState,
+    insertPengembalianUiState: InsertPengembalianUiState,
     onPengembalianValueChange: (InsertUiPengembalian)->Unit,
     onSaveClick:()->Unit,
     modifier: Modifier = Modifier

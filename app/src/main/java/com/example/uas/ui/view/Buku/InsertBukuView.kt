@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uas.ui.customwidget.CustomeTopAppBar
 import com.example.uas.ui.navigation.DestinasiNavigasi
+import com.example.uas.ui.viewmodel.Buku.InsertBukuUiState
 import com.example.uas.ui.viewmodel.Buku.InsertBukuViewModel
 import com.example.uas.ui.viewmodel.Buku.InsertUiBuku
-import com.example.uas.ui.viewmodel.Buku.InsertUiState
 import com.example.uas.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
@@ -73,7 +73,7 @@ fun EntryBukuScreen(
 
 @Composable
 fun EntryBodyBuku(
-    insertBukuUiState: InsertUiState,
+    insertBukuUiState: InsertBukuUiState,
     onBukuValueChange: (InsertUiBuku)->Unit,
     onSaveClick:()->Unit,
     modifier: Modifier = Modifier
